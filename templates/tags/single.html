@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <h1 class="title">{{term.name}}</h1>
+    <ul>
+        {% for page in term.pages %}
+        <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a> Published:
+            {{ page.date | date(format="%m-%d-%Y") }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

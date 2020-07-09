@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+
+    <h1 class="title">
+        {{ section.title }}
+    </h1>
+
+    {% set postsGroupedByYear =  section.pages | group_by(attribute="year") %}
+    {% for year, posts in postsGroupedByYear %}
+    <ul>
+        <li>{{ year }}</li>
+        {% set postsGroupedByMonth =  posts | group_by(attribute="month") %}
+        {% for month, postsInMonth in postsGroupedByMonth %}
+        <ul>
+            <li>{{ "1970-" ~ month ~ "-1"  | date(format="%B") }}</li>
+            <ul>
+                {% for post in postsInMonth | sort(attribute="day") | reverse %}
+                <li>
+                    <a href="{{ post.permalink | safe }}">{{ post.title }}</a>
+                    Published: {{ post.date | date(format="%m-%d-%Y") }}
+                </li>
+                {% endfor %}
+            </ul>
+        </ul>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</div>
+
+{% endblock content %}

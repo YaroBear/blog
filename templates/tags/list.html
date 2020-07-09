@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <h1 class="title">{{current_path}}</h1>
+    <ul>
+        {% for tag in terms %}
+        <li><a href="{{ tag.permalink | safe }}">{{ tag.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

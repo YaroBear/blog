@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+//
+// override any variables before importing here
+//
+
+@import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+
+body {
+    height: 100vh;
+}
+
+a {
+    color: $turquoise;
+    &.navbar-item {
+        color: $grey-light;
+
+        &:hover {
+            background-color: $yellow;
+        }
+
+        &.is-active {
+            color: $white;
+        }
+    }
+
+    &:hover {
+        color: white;
+    }
+}
+
+.section {
+    color: $grey-light;
+    background-color:  $grey-darker;
+}
+
+.content {
+    h1, h2, h3 {
+        color: white;
+    }
+
+    blockquote {
+        border-left: 10px solid $yellow;
+        background-color: $black-ter;
+    }
+}
+
+
+.subtitle, .title {
+    color: white;
+}
+
+.hero-body {
+    .title {
+        color: black;
+    }
+}

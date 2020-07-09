@@ -1,0 +1,24 @@
+# The URL the site will be built for
+base_url = "https://blog.yaroslavberejnoi.com"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "two-dark"
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+# zola will generate a feed file for the site, named according to the feed_filename setting in config.toml, which defaults to atom.xml. Given the feed filename atom.xml, the generated file will live at base_url/atom.xml, based upon the atom.xml file in the templates directory, or the built-in Atom template.
+# feed_filename can be set to any value, but built-in templates are provided for atom.xml (in the preferred Atom 1.0 format), and rss.xml (in the RSS 2.0 format). If you choose a different filename (e.g. feed.xml), you will need to provide a template yourself.
+generate_feed = true
+
+taxonomies = [
+    {name = "tags", feed = true}
+]
+
+[extra]
+# Put all your custom variables here

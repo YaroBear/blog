@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content">
+    <h1 class='title'>
+        {{ page.title }}
+    </h1>
+    <h3 class='subtitle'>{{ page.date | date(format="%m-%d-%Y") }}</h3>
+    <span>Tags:
+        {% for tag in page.taxonomies['tags'] %}
+        <a href="{{ config.base_url }}/tags/{{tag}}">{{tag}}</a>
+        {% endfor %}
+    </span>
+    <br />
+    Reading time: ~{{ page.reading_time }} mins.
+    <p>{{ page.content | safe }}</p>
+</div>
+{% endblock content %}
