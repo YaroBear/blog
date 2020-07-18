@@ -38,3 +38,12 @@ jobs:
           PAGES_BRANCH: gh-pages
           BUILD_DIR: .
           TOKEN: ${{ secrets.TOKEN }}
+      - name: copy files to target server via ssh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: "*"
+          target: "/var/www/blog"
