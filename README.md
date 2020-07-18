@@ -1,3 +1,5 @@
+![.github/workflows/build.yml](https://github.com/YaroBear/blog/workflows/.github/workflows/build.yml/badge.svg)
+
 ## My blog
 
 Built with Zola
