@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
+      - name: "Setup node and run npm install"
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: npm install
       - name: 'Build only' 
         uses: shalzz/zola-deploy-action@master
         env:
