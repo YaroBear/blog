@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '12'
       - run: npm install
-      - name: 'Build only' 
+      - name: 'Build with zola' 
         uses: shalzz/zola-deploy-action@master
         env:
           BUILD_DIR: .
@@ -27,7 +27,12 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
-      - name: 'Build and deploy'
+      - name: "Setup node and run npm install"
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: npm install
+      - name: 'Build with zola and deploy'
         uses: shalzz/zola-deploy-action@master
         env:
           PAGES_BRANCH: gh-pages
