@@ -33,7 +33,7 @@ For this we will use [Github workflows/actions](https://docs.github.com/en/actio
 
 I won't go into the heavy details of how actions work here; just know that most of what you probably need is already on the marketplace, workflows are written in yaml, and every action on the marketplace should have good example to get you started. Below I will outline a workflow that could apply to almost any project. The only thing that will differ will probably be the action and it's configuration (build a C# project version build a node project).
 
-```
+```yaml
 on:
   pull_request:
 jobs:
@@ -73,7 +73,7 @@ We can even just copy our build files to a target server using SCP/SSH like I di
 
 From the `build_and_deploy` job:
 
-```
+```yaml
   build_and_deploy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
