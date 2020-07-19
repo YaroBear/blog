@@ -2,6 +2,6 @@
 
 ## My blog
 
-Built with Zola
+Built with ![Zola](https://github.com/getzola/zola) 
 
 ![Example Post](https://raw.githubusercontent.com/YaroBear/blog/master/yaros_blog.png)
