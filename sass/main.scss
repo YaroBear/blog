@@ -34,6 +34,9 @@ a {
 .section {
     color: $grey-light;
     background-color:  $grey-darker;
+    strong {
+        color: $grey-light;
+    }
 }
 
 .content {
