@@ -110,3 +110,5 @@ Some action require setting up a [personal access token](https://docs.github.com
 ## Summary
 
 That about covers the most basic scenario. The sky is the limit from here, but setting up a basic workflow to build code and validate our pull requests will save a lot of time and headaches for your team. Also, it's pretty dang fun watching the logs as our build pipelines progress 🤓.
+
+![build and deploy workflow](/images/setting_up_a_simple_team_project_workflow_on_github/build_and_deploy.gif)
