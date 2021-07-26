@@ -6,7 +6,7 @@
         {{ section.title }}
     </h1>
 
-    {% set postsGroupedByYear =  section.pages | group_by(attribute="year") %}
+    {% set postsGroupedByYear =  section.pages | sort(attribute="year") | reverse | group_by(attribute="year") %}
     {% for year, posts in postsGroupedByYear %}
     <ul>
         <li>{{ year }}</li>
