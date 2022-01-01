@@ -23,6 +23,6 @@ Cargo will attempt to pick a package that solves both of the requirements for `w
 
 For more, see [semver compatibility](https://doc.rust-lang.org/cargo/reference/resolver.html#semver-compatibility).
 
-Theoretically, `wgpu 0.7.0` shouldn't have such strict dependency on a patched version, as patches usually only include bug fixes and the like, and shouldn't break existing version with future patches. That's the definition of SemVer. O'well 🤷‍♂️.
+Theoretically, `wgpu 0.7.0` shouldn't have such strict dependency on a patched version, as patches usually only include bug fixes and the like, and shouldn't break existing features with future patches. That's the definition of SemVer. O'well 🤷‍♂️.
 
 To get around this, I think i'll just get rid of the cargo workspace.
