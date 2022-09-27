@@ -1,4 +1,9 @@
-+++ title = "Bridging the gap: Building an IOT Hydrometer" date = 2022-09-18 [taxonomies] tags = ["esp8266", "i2c", "microcontroller", "hydrometer", "beer brewing", "bridging the gap"] +++
++++
+title = "Bridging the gap: Building an IOT Hydrometer"
+date = 2022-09-27
+[taxonomies]
+tags = ["esp8266", "i2c", "microcontroller", "hydrometer", "beer brewing", "bridging the gap"]
++++
 
 ![esp8266 with mpu6050](/images/building_a_hydrometer/project.webp)
 
