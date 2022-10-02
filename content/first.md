@@ -7,7 +7,7 @@ tags = ["welcome", "test", "hello"]
 
 # Welcome
 
-`Hello world` and thanks for stopping by. This blog is dedicated as a self-reference for the things I learn and don't want to forget (and if I do, easy to lookup 🕵️‍♀️).
+**Hello world** and thanks for stopping by. This blog is dedicated as a self-reference for the things I learn and don't want to forget (and if I do, easy to lookup 🕵️‍♀️).
 
 ## A few things to expect from this blog:
 * [Rust](https://www.rust-lang.org/) learnings
