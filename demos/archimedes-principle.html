@@ -1,0 +1,48 @@
+<html>
+    <canvas id="canvas"></canvas>
+</html>
+
+<script>
+    let ballMass = 1000.0; // kg
+    const ballVolume = 33.51 // m3
+    const densityWater = 997 // kg/m3
+
+    const drawWater = (ctx, x, y, w, h) => {
+        ctx.fillStyle = 'rgba(0, 0, 255, .8)';
+        ctx.fillRect(x, y, w, h);
+    };
+
+    const drawBall = (ctx, x, y, radius) => {
+        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+    };
+
+    const getBallDensity = () => {
+        return ballMass / ballVolume;
+    };
+
+    const getPercentageSubmerged = () => {
+        return getBallDensity() / densityWater;
+    }
+
+    const getRadiusSubmerged = () => {
+        getPercentageSubmerged()
+    }
+
+    window.onload = () => {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        drawBall(ctx, canvas.width / 2, canvas.height / 2, 50);
+        drawWater(ctx, 0, canvas.height, canvas.width, canvas.height / -2);
+    };
+</script>
+
+<style>
+    canvas {
+        border: 1px solid;
+    }
+</style>
