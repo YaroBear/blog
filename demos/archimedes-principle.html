@@ -1,48 +1,177 @@
 <html>
-    <canvas id="canvas"></canvas>
+    <canvas width="600px" height="300px" id="canvas"></canvas>
+    <div>
+        Note: When the density of the ball > density of the water, it will continue to sink until it reaches the bottom.
+        This illustration does not represent that.
+    </div>
+    <div id="buoyancy-note">
+        Notice that the buoyant force does not increase once the density of the ball is greater than or equal
+        to the density of the water. Similarly, the buoyant force would remain the same regardless of how deep the ball sinks.
+        The buoyant force is dependent on the volume of water displaced, and is independent of the surrounding pressure.
+    </div>
+    <div>
+        <input
+            type="range"
+            id="ball-mass"
+            name="ball-mass"
+            min="1"
+            max="500"
+            value="10"
+        />
+        <label for="volume">Mass of ball: <span id="ball-mass-label">10</span> kg</label>
+    </div>
+    <div>
+        <input
+            type="range"
+            id="ball-radius"
+            name="ball-radius"
+            min="5"
+            max="100"
+            value="50"
+        />
+        <label for="ball-radius">Radius of ball: <span id="ball-radius-label">50</span> cm</label>
+    </div>
+    <div>Density of water: 997 kg/m^3</div>
+    <div>
+        Density of ball: <span id="density-ball"></span> kg/m^3
+    </div>
+    <div>
+        Volume of water displaced: <span id="volume-water-displaced"></span> m^3
+    </div>
+    <div>
+        Buoyant force (weight of displaced water) <span id="buoyant-force"></span> kg * m/s^2
+    </div>
 </html>
 
 <script>
-    let ballMass = 1000.0; // kg
-    const ballVolume = 33.51 // m3
-    const densityWater = 997 // kg/m3
+    // A sphere is really just a three dimensional circle. We can solve for a "submerged" circle
+    // to get a good illustration of Archimedes' principle.
+    // i.e. Ratio of volume submerged == ratio of circle submerged
+    const densityWater = 997;
+    const gravity = 9.81;
+    let densityBall;
+    let radiusBall = 50; // cm, in this case our units are actual pixels
+    let massBall = 10; // kg
 
-    const drawWater = (ctx, x, y, w, h) => {
-        ctx.fillStyle = 'rgba(0, 0, 255, .8)';
+    let canvas;
+    let ctx;
+
+    const drawWater = (x, y, w, h) => {
+        ctx.fillStyle = "rgba(0, 0, 255, .8)";
         ctx.fillRect(x, y, w, h);
     };
 
-    const drawBall = (ctx, x, y, radius) => {
-        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    const drawBall = (x, y) => {
+        ctx.fillStyle = "rgba(255, 0, 0, 1)";
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.arc(x, y, radiusBall, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
     };
 
-    const getBallDensity = () => {
-        return ballMass / ballVolume;
+    const calculatePercentageSubmerged = () => {
+        const percentageSubmerged = densityBall / densityWater;
+        if (percentageSubmerged > 1) {
+            return 1;
+        }
+        return percentageSubmerged;
     };
 
-    const getPercentageSubmerged = () => {
-        return getBallDensity() / densityWater;
+    const calculateSubmergedSphericalCapOffSetX = () => {
+        return 2 * radiusBall * calculatePercentageSubmerged();
+    };
+
+    const setDensityOfBall = () => {
+        const densityBallElement = document.getElementById("density-ball");
+        densityBall = massBall / calculateBallVolume();
+        densityBallElement.innerText = parseFloat(densityBall).toFixed(2);
+    };
+
+    const setVolumeWaterDisplaced = () => {
+        const volumeWaterDisplacedElement = document.getElementById("volume-water-displaced");
+        volumeWaterDisplacedElement.innerText = parseFloat(calculateBallVolume() * calculatePercentageSubmerged()).toFixed(4);
+    };
+
+    const setBuoyantForce = () => {
+        const buoyantForceElement = document.getElementById("buoyant-force");
+        buoyantForceElement.innerText = parseFloat(getBuoyantForce()).toFixed(2);
+    };
+
+    const setMassBall = (massSliderValue) => {
+        const ballMassLabelElement = document.getElementById("ball-mass-label");
+        massBall = massSliderValue;
+        ballMassLabelElement.innerText = massBall;
+    };
+
+    const setRadiusBall = (radiusSliderValue) => {
+        const ballRadiusLabel = document.getElementById("ball-radius-label");
+        radiusBall = radiusSliderValue;
+        ballRadiusLabel.innerText = radiusBall;
+    };
+
+    const calculateBallVolume = () => {
+        return ((4 / 3) * Math.PI * (radiusBall / 100) ** 3);
     }
 
-    const getRadiusSubmerged = () => {
-        getPercentageSubmerged()
+    const getBuoyantForce = () => {
+        // F = pgV
+        return densityWater * gravity * calculateBallVolume() * calculatePercentageSubmerged();
     }
+
+    const conditionallyShowBuoyancyNote = () => {
+        if (calculatePercentageSubmerged() == 1) {
+            const buoyancyNoteElement = document.getElementById("buoyancy-note");
+            buoyancyNoteElement.style.visibility = "visible";
+        }
+    }
+
+    const drawScene = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const capOffsetX = calculateSubmergedSphericalCapOffSetX();
+        drawBall(canvas.width / 2, canvas.height / 2 - radiusBall + capOffsetX);
+        drawWater(0, canvas.height, canvas.width, canvas.height / -2);
+    };
+
+    const onChanges = () => {
+        setDensityOfBall();
+        setVolumeWaterDisplaced();
+        setBuoyantForce();
+        drawScene();
+        conditionallyShowBuoyancyNote();
+    };
+
+    const listenToSliderChanges = () => {
+        const ballMassSliderElement = document.getElementById("ball-mass");
+        ballMassSliderElement.addEventListener("input", (ev) => {
+            setMassBall(ballMassSliderElement.value);
+            onChanges();
+        });
+
+        const ballRadiusSlider = document.getElementById("ball-radius");
+        ballRadiusSlider.addEventListener("input", (ev) => {
+            setRadiusBall(ballRadiusSlider.value)
+            onChanges();
+        });
+    };
 
     window.onload = () => {
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
 
-        drawBall(ctx, canvas.width / 2, canvas.height / 2, 50);
-        drawWater(ctx, 0, canvas.height, canvas.width, canvas.height / -2);
+        listenToSliderChanges();
+        setDensityOfBall();
+        setVolumeWaterDisplaced();
+        setBuoyantForce();
+        drawScene();
     };
 </script>
 
 <style>
     canvas {
         border: 1px solid;
+    }
+
+    #buoyancy-note {
+        visibility: hidden;
     }
 </style>
