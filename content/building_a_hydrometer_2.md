@@ -1,10 +1,9 @@
 +++
-title = "What is a hydrometer and how do we build one?"
+title = "Bridging the gap: Building an IOT Hydrometer (Part 2)"
 date = 2022-10-02
 [taxonomies]
 tags = ["hydrometer", "bridging the gap", "hydrostatics", "accelerometer", "archimedes' principle"]
 +++
-
 
 ## What is a hydrometer?
 

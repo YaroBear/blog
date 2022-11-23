@@ -1,5 +1,5 @@
 +++
-title = "Bridging the gap: Building an IOT Hydrometer"
+title = "Bridging the gap: Building an IOT Hydrometer (Part 1)"
 date = 2022-09-27
 [taxonomies]
 tags = ["esp8266", "i2c", "microcontroller", "hydrometer", "beer brewing", "bridging the gap"]
