@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
     <canvas width="600px" height="300px" id="canvas"></canvas>
     <div>
@@ -79,7 +80,12 @@
     };
 
     const calculateSubmergedSphericalCapOffSetX = () => {
-        return 2 * radiusBall * calculatePercentageSubmerged();
+        // sagitta: h = r - rcos(theta/2)
+        // sector area/circle area = sector angle/circle angle
+        // so, % area submerged = % circle angle
+        const sectorAngle = calculatePercentageSubmerged() * 2 * Math.PI;
+        const sagitta = radiusBall - radiusBall * Math.cos(sectorAngle/2);
+        return sagitta;
     };
 
     const setDensityOfBall = () => {
