@@ -31,7 +31,7 @@ const calculatePercentageSubmerged = () => {
     return percentageSubmerged;
 };
 
-const calculateSubmergedSphericalCapOffSetX = () => {
+const calculateDiskSagitta = () => {
     // sagitta: h = r - rcos(theta/2)
     // sector area/circle area = sector angle/circle angle
     // so, % area submerged = % circle angle
@@ -86,8 +86,8 @@ const conditionallyShowBuoyancyNote = () => {
 
 const drawScene = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const capOffsetX = calculateSubmergedSphericalCapOffSetX();
-    drawBall(canvas.width / 2, canvas.height / 2 - radiusBall + capOffsetX);
+    const diskSagitta = calculateDiskSagitta();
+    drawBall(canvas.width / 2, canvas.height / 2 - radiusBall + diskSagitta);
     drawWater(0, canvas.height, canvas.width, canvas.height / -2);
 };
 
