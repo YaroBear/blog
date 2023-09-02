@@ -4,7 +4,7 @@
 const densityWater = 997;
 const gravity = 9.81;
 let densityBall;
-let radiusBall = 50; // cm, in this case our units are actual pixels
+let radiusCircle = 50; // cm, in this case our units are actual pixels
 let massBall = 10; // kg
 
 let canvas;
@@ -43,20 +43,28 @@ let geometryOverlayParams = {
     }
 }
 
-const drawWater = (x, y, w, h) => {
+const drawWater = () => {
     ctx.fillStyle = "rgba(0, 0, 255, .6)";
-    ctx.fillRect(x, y, w, h);
+    ctx.fillRect(0, canvas.height, canvas.width, canvas.height / -2);
 };
 
-const drawBall = (x, y) => {
+const drawCircle = () => {
+    const diskSagittaLength = calculateDiskSagittaLength();
+    const ballCenterX = canvas.width / 2;
+    const ballCenterY = canvas.height / 2 - radiusCircle + diskSagittaLength;
     ctx.fillStyle = "rgba(255, 0, 0, 1)";
     ctx.beginPath();
-    ctx.arc(x, y, radiusBall, 0, 2 * Math.PI);
+    ctx.arc(ballCenterX, ballCenterY, radiusCircle, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
 };
 
-const drawGeometryOverlay = () => {
+const drawGeometryOverlayConditionally = () => {
+    const showGeometryOverlayCheckbox = document.getElementById('show-geometry-overlay');
+    if (!showGeometryOverlayCheckbox.checked) {
+        return
+    }
+
     ctx.fillStyle = "rgba(0, 0, 0, 1)";
 
     const sagittaPoints = geometryOverlayParams['sagitta'].points;
@@ -77,7 +85,8 @@ const drawGeometryOverlay = () => {
     ctx.fillText(`${(sectorAngle * 180 / Math.PI).toFixed(2)} °`, inscribedTrianglePoints[2].x, inscribedTrianglePoints[2].y);
 }
 
-const updateGeometryOverlaySagitta = (diskSagittaLength) => {
+const updateGeometryOverlay = () => {
+    const diskSagittaLength = calculateDiskSagittaLength();
     const canvasCenterX = canvas.width / 2;
     const canvasCenterY = canvas.height / 2;
     geometryOverlayParams['sagitta'].points = [
@@ -90,13 +99,9 @@ const updateGeometryOverlaySagitta = (diskSagittaLength) => {
             y: canvasCenterY + diskSagittaLength
         }
     ];
-}
 
-const updateGeometryOverlayInscribedAngle = () => {
-    const canvasCenterX = canvas.width / 2;
-    const canvasCenterY = canvas.height / 2;
-    const triangleBaseLength = radiusBall * Math.sin(sectorAngle / 2);
-    const d = radiusBall * Math.cos(sectorAngle / 2);
+    const triangleBaseLength = radiusCircle * Math.sin(sectorAngle / 2);
+    const d = radiusCircle * Math.cos(sectorAngle / 2);
 
     geometryOverlayParams['inscribedTriangle'].points = [
         {
@@ -127,43 +132,43 @@ const calculateDiskSagittaLength = () => {
     // sector area/circle area = sector angle/circle angle
     // so, % area submerged = % circle angle
     sectorAngle = calculatePercentageSubmerged() * 2 * Math.PI;
-    const sagittaLength = radiusBall - radiusBall * Math.cos(sectorAngle / 2);
+    const sagittaLength = radiusCircle - radiusCircle * Math.cos(sectorAngle / 2);
     return sagittaLength;
 };
 
-const setDensityOfBall = () => {
+const updateDensityOfBall = () => {
     const densityBallElement = document.getElementById("density-ball");
     densityBall = massBall / calculateBallVolume();
     densityBallElement.innerText = parseFloat(densityBall).toFixed(2);
 };
 
-const setVolumeWaterDisplaced = () => {
+const updateVolumeWaterDisplaced = () => {
     const volumeWaterDisplacedElement = document.getElementById("volume-water-displaced");
     volumeWaterDisplacedElement.innerText = parseFloat(calculateBallVolume() * calculatePercentageSubmerged()).toFixed(4);
 };
 
-const setBuoyantForce = () => {
+const updateBuoyantForce = () => {
     const buoyantForceElement = document.getElementById("buoyant-force");
-    buoyantForceElement.innerText = parseFloat(getBuoyantForce()).toFixed(2);
+    buoyantForceElement.innerText = parseFloat(calculateBuoyantForce()).toFixed(2);
 };
 
-const setMassBall = (massSliderValue) => {
+const updateCircleMass = (massSliderValue) => {
     const ballMassLabelElement = document.getElementById("ball-mass-label");
     massBall = massSliderValue;
     ballMassLabelElement.innerText = massBall;
 };
 
-const setRadiusBall = (radiusSliderValue) => {
+const updateCircleRadius = (radiusSliderValue) => {
     const ballRadiusLabel = document.getElementById("ball-radius-label");
-    radiusBall = radiusSliderValue;
-    ballRadiusLabel.innerText = radiusBall;
+    radiusCircle = radiusSliderValue;
+    ballRadiusLabel.innerText = radiusCircle;
 };
 
 const calculateBallVolume = () => {
-    return ((4 / 3) * Math.PI * (radiusBall / 100) ** 3);
+    return ((4 / 3) * Math.PI * (radiusCircle / 100) ** 3);
 }
 
-const getBuoyantForce = () => {
+const calculateBuoyantForce = () => {
     // F = pgV
     return densityWater * gravity * calculateBallVolume() * calculatePercentageSubmerged();
 }
@@ -177,34 +182,35 @@ const conditionallyShowBuoyancyNote = () => {
 
 const drawScene = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const diskSagittaLength = calculateDiskSagittaLength();
-    const ballCenterX = canvas.width / 2;
-    const ballCenterY = canvas.height / 2 - radiusBall + diskSagittaLength;
-    updateGeometryOverlaySagitta(diskSagittaLength);
-    updateGeometryOverlayInscribedAngle();
-    drawBall(ballCenterX, ballCenterY);
-    drawWater(0, canvas.height, canvas.width, canvas.height / -2);
-    drawGeometryOverlay();
+    drawCircle();
+    drawWater();
+    drawGeometryOverlayConditionally();
 };
 
 const onChanges = () => {
-    setDensityOfBall();
-    setVolumeWaterDisplaced();
-    setBuoyantForce();
+    updateDensityOfBall();
+    updateVolumeWaterDisplaced();
+    updateBuoyantForce();
+    updateGeometryOverlay();
     drawScene();
     conditionallyShowBuoyancyNote();
 };
 
-const listenToSliderChanges = () => {
+const listenToInputChanges = () => {
     const ballMassSliderElement = document.getElementById("ball-mass");
     ballMassSliderElement.addEventListener("input", (ev) => {
-        setMassBall(ballMassSliderElement.value);
+        updateCircleMass(ballMassSliderElement.value);
         onChanges();
     });
 
     const ballRadiusSlider = document.getElementById("ball-radius");
     ballRadiusSlider.addEventListener("input", (ev) => {
-        setRadiusBall(ballRadiusSlider.value)
+        updateCircleRadius(ballRadiusSlider.value)
+        onChanges();
+    });
+
+    const showGeometryOverlayCheckbox = document.getElementById('show-geometry-overlay');
+    showGeometryOverlayCheckbox.addEventListener("input", (ev) => {
         onChanges();
     });
 };
@@ -213,6 +219,6 @@ window.onload = () => {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
-    listenToSliderChanges();
+    listenToInputChanges();
     onChanges();
 }
