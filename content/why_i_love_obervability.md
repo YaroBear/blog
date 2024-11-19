@@ -7,7 +7,7 @@ tags = ["OpenTelemetry", "Application Insights", "Well architected framework", "
 
 ## Why I love observability
 
-<sub><sup>And why I think operational excellence is the most important pillar of the well architected framework</sub></sup>
+<sub>And why I think operational excellence is the most important pillar of the well architected framework</sub>
 
 ### The 5 pillars of the well architected framework
 
