@@ -5,7 +5,7 @@ date = 2024-11-10
 tags = ["biking", "utah"]
 +++
 
-It wasn't long ago I found out that the (Jordan River Parkway Trail)[https://www.slc.gov/parks/parks-division/jordan-river-parkway-trail/] in Utah is the longest paved _urban_ trail in the United States (the bold "urban" was not a mistake; there are longer trails in the US that aren't urban 😂).
+It wasn't long ago I found out that the [Jordan River Parkway Trail](https://www.slc.gov/parks/parks-division/jordan-river-parkway-trail/) in Utah is the longest paved _urban_ trail in the United States (the bold "urban" was not a mistake; there are longer trails in the US that aren't urban 😂).
 
 Some websites say it's 45+ miles. Some say it 60+. I wonder what the discrepancy is there? Anyway, you can go from Utah Lake all the way to the Great Salt Lake in about in a 58 mile stretch of it. I would love to make that trek someday on my bike, but I decided I would first make an attempt to bike from my house in east Sandy to Utah Lake and back.
 
