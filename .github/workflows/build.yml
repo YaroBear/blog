@@ -16,7 +16,7 @@ jobs:
                   node-version: "12"
             - run: npm install
             - name: "Build with zola"
-              uses: shalzz/zola-deploy-action@v0.16.1
+              uses: shalzz/zola-deploy-action@v0.15.2
               env:
                   BUILD_DIR: .
                   TOKEN: ${{ secrets.TOKEN }}
@@ -33,7 +33,7 @@ jobs:
                   node-version: "12"
             - run: npm install
             - name: "Build with zola"
-              uses: shalzz/zola-deploy-action@v0.16.1
+              uses: shalzz/zola-deploy-action@v0.15.2
               env:
                   BUILD_DIR: .
                   TOKEN: ${{ secrets.TOKEN }}
