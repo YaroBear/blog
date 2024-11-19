@@ -11,7 +11,7 @@ Some websites say it's 45+ miles. Some say it 60+. I wonder what the discrepancy
 
 Part of the journey would just be heading straight west until I reached the JRT, about 6 miles, and the remainder 21 miles would be on the beautiful meandering trail that's fully away from car traffic, aside from a few crossing on the way.
 
-I had planned to take a bus or Frontrunner (our urban rail system) part of the way back in case I didn't feel like biking the entire length, but due to poor planning and the lack of service on Sunday, I missed both the last train and bus.
+I had planned to take a bus or Frontrunner (our commuter rail system) part of the way back in case I didn't feel like biking the entire length, but due to poor planning and the lack of service on Sunday, I missed both the last train and bus.
 
 I want to say I was up for the challenge, but by the time I got to Utah lake, the sun was already setting and it started to get really cold, really fast, which I was also unprepared for.
 
