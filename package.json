@@ -1,10 +1,17 @@
 {
-  "name": "blog",
-  "version": "1.0.0",
-  "main": "sass/main.scss",
-  "license": "ISC",
-  "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.1",
-    "bulma": "^0.9.0"
-  }
+    "name": "blog",
+    "version": "1.0.0",
+    "main": "sass/main.scss",
+    "license": "ISC",
+    "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.13.1",
+        "bulma": "^0.9.0"
+    },
+    "scripts": {
+        "copy": "mkdir -p ./static/js && npm run copy-bear-cursor-follower",
+        "copy-bear-cursor-follower": "cp -r node_modules/bear-cursor-follower ./static/js/bear-cursor-follower"
+    },
+    "dependencies": {
+        "bear-cursor-follower": "^1.0.0"
+    }
 }

@@ -15,6 +15,7 @@ jobs:
               with:
                   node-version: "12"
             - run: npm install
+            - run: npm run copy
             - name: "Build with zola"
               uses: shalzz/zola-deploy-action@v0.16.1-1
               env:
