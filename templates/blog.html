@@ -13,7 +13,21 @@
         {% set postsGroupedByMonth =  posts | group_by(attribute="month") %}
         {% for month, postsInMonth in postsGroupedByMonth %}
         <ul>
-            <li>{{ "1970-" ~ month ~ "-1"  | date(format="%B") }}</li>
+            <li>
+                {% if month == 1 %}January
+                {% elif month == 2 %}February
+                {% elif month == 3 %}March
+                {% elif month == 4 %}April
+                {% elif month == 5 %}May
+                {% elif month == 6 %}June
+                {% elif month == 7 %}July
+                {% elif month == 8 %}August
+                {% elif month == 9 %}September
+                {% elif month == 10 %}October
+                {% elif month == 11 %}November
+                {% else %}December
+                {% endif %}
+            </li>
             <ul>
                 {% for post in postsInMonth | sort(attribute="day") | reverse %}
                 <li>

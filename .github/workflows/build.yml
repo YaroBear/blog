@@ -1,52 +1,65 @@
+name: Build and push Docker image
 on:
-    push:
-        branches:
-            - master
-    pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  pull_request:
+
+env:
+  IMAGE_NAME: blog
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        if: github.ref != 'refs/heads/master'
-        steps:
-            - name: "Checkout"
-              uses: actions/checkout@master
-            - name: "Setup node"
-              uses: actions/setup-node@v1
-              with:
-                  node-version: "12"
-            - run: npm install
-            - run: npm run copy
-            - name: "Build with zola"
-              uses: shalzz/zola-deploy-action@v0.16.1-1
-              env:
-                  BUILD_DIR: .
-                  TOKEN: ${{ secrets.TOKEN }}
-                  BUILD_ONLY: true
-    build_and_deploy:
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/master'
-        steps:
-            - name: "Checkout"
-              uses: actions/checkout@master
-            - name: "Setup node"
-              uses: actions/setup-node@v1
-              with:
-                  node-version: "12"
-            - run: npm install
-            - run: npm run copy
-            - name: "Build with zola"
-              uses: shalzz/zola-deploy-action@v0.16.1-1
-              env:
-                  BUILD_DIR: .
-                  TOKEN: ${{ secrets.TOKEN }}
-                  BUILD_ONLY: true
-            - name: copy files to target server via ssh
-              uses: appleboy/scp-action@master
-              with:
-                  host: ${{ secrets.HOST }}
-                  username: ${{ secrets.USERNAME }}
-                  port: ${{ secrets.PORT }}
-                  key: ${{ secrets.KEY }}
-                  source: "./public/*"
-                  target: "/var/www/blog"
-                  overwrite: true
+  build:
+    name: Build image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build Docker image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+
+      - name: Save Docker image
+        run: docker save --output blog-image.tar $IMAGE_NAME
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-image
+          path: blog-image.tar
+
+  push:
+    name: Push image
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: blog-image
+
+      - name: Load Docker image
+        run: docker load --input blog-image.tar
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+
+          # This changes all uppercase characters to lowercase.
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # This strips the git ref prefix from the version.
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # This strips the "v" prefix from the tag name.
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # This uses the Docker `latest` tag convention.
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
