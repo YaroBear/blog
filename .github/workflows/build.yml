@@ -4,6 +4,8 @@ on:
     branches:
       - master
   workflow_dispatch:
+  pull_request:
+
 env:
   IMAGE_NAME: blog
 jobs:
