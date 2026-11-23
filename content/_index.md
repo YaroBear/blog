@@ -1,6 +1,6 @@
 +++
 title = "All posts"
-sory_by = "date"
+sort_by = "date"
 template = "blog.html"
 page_template = "blog-page.html"
 +++

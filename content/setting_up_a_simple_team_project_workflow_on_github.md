@@ -73,6 +73,7 @@ We can even just copy our build files to a target server using SCP/SSH like I di
 
 From the **build_and_deploy** job:
 
+{% raw %}
 ```yaml
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -102,6 +103,7 @@ From the **build_and_deploy** job:
           target: "/var/www/blog"
           overwrite: true
 ```
+{% endraw %}
 
 The **secrets** pipeline variables can be easily configured by going to your project's settings and clicking the Secrets tab.
 
